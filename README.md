@@ -1,2 +1,2 @@
 # Netflix_Data_Analysis
-End-to-end Netflix catalog analysis in Python: cleans the Kaggle titles dataset, runs 15+ analyses with pandas, produces 15 charts with matplotlib/seaborn, and includes a TF-IDF content-based recommender. Runs from a single CLI command.
+A modular, end-to-end data analysis project on the Netflix Movies & TV Shows dataset. The pipeline loads the raw CSV, cleans and engineers features, analyzes content trends (growth over time, seasonality, top countries, genres and talent, ratings, runtimes, and release lag), exports the results as CSV tables and PNG charts, and offers a content-based recommender that suggests similar titles. A synthetic data generator is included so the project runs out of the box without downloading anything.
