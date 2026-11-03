@@ -30,7 +30,6 @@ from visualizations import create_all_plots
 logger = logging.getLogger("netflix")
 
 def parse_args() -> argparse.Namespace:
-    """Parse command line arguments."""
     parser = argparse.ArgumentParser(
         description="Analyse the Netflix Movie and TV Show dataset and generate insights, tables, and visualizations.",
         formatter_class=argparse.RawDescriptionHelpFormatter,
