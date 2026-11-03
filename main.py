@@ -30,6 +30,7 @@ from visualizations import create_all_plots
 logger = logging.getLogger("netflix")
 
 def parse_args() -> argparse.Namespace:
+    """Parse command line arguments."""
     parser = argparse.ArgumentParser(
         description="Analyse the Netflix Movie and TV Show dataset and generate insights, tables, and visualizations.",
         formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -115,7 +116,7 @@ def main() -> int:
     if not args.skip_plots:
         create_all_plots(df, tables)
 
-    # 5. Recommendations
+    # 5. Recommend
     if args.recommend:
         recommender = ContentRecommender(df).fit()
         try:
