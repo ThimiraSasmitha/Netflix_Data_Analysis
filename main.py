@@ -1,8 +1,8 @@
 """
 Netflix data analysis - end-to-end pipeline.
-
+ 
     load -> clean -> analyse -> export tables -> plot -> (optional) recommend
-
+ 
 Examples
 --------
     python main.py --sample                       # try it on synthetic demo data
@@ -29,36 +29,56 @@ from visualizations import create_all_plots
 
 logger = logging.getLogger("netflix")
 
-
 def parse_args() -> argparse.Namespace:
+    """Parse command line arguments."""
     parser = argparse.ArgumentParser(
-        description="Analyse the Netflix Movies & TV Shows dataset.",
+        description="Analyse the Netflix Movie and TV Show dataset and generate insights, tables, and visualizations.",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=__doc__,
+        )
+    parser.add_argument(
+        "--data",
+        type=Path,
+        default=RAW_DATA_PATH,
+        help="Path to netflix_titles.csv (default: %(default)s)"
     )
-    parser.add_argument("--data", type=Path, default=RAW_DATA_PATH,
-                        help="path to netflix_titles.csv (default: %(default)s)")
-    parser.add_argument("--sample", action="store_true",
-                        help="generate and use synthetic demo data instead of the real CSV")
-    parser.add_argument("--sample-size", type=int, default=2000,
-                        help="number of rows for --sample (default: %(default)s)")
-    parser.add_argument("--skip-plots", action="store_true",
-                        help="skip chart generation")
-    parser.add_argument("--recommend", metavar="TITLE",
-                        help="print titles similar to TITLE")
-    parser.add_argument("--top", type=int, default=10,
-                        help="number of recommendations to show (default: %(default)s)")
-    return parser.parse_args()
+    parser.add_argument(
+        "--sample",
+        action="store_true",
+        help="generate and use synthetic demo data instead of the real CSV"
+    )
+    parser.add_argument(
+        "--sample-size",
+        type=int,
+        default=2000,
+        help="number of rows for --sample (default: %(default)s)",
+    )
+    parser.add_argument(
+        "--skip-plots",
+        action="store_true",
+        help="skip chart generation",
+    )
 
+    parser.add_argument(
+        "--recommend",
+        metavar="TITLE",
+        help="print titles similar to TITLE"
+    )
+
+    parser.add_argument(
+        "--top",
+        type=int,
+        default=10,
+        help="number of recommendations to show (default: %(default)s)"
+    )
+    return parser.parse_args()
 
 def setup_logging() -> None:
     logging.basicConfig(level=logging.INFO, format="%(levelname)s | %(message)s")
 
-
 def write_insights(insights: list[str], path: Path = INSIGHTS_PATH) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text("\n".join(f"- {line}" for line in insights) + "\n", encoding="utf-8")
-
 
 def main() -> int:
     args = parse_args()
@@ -92,7 +112,7 @@ def main() -> int:
     for line in insights:
         print(f"- {line}")
 
-    # 4. Visualise
+    # 4. Visualize
     if not args.skip_plots:
         create_all_plots(df, tables)
 
