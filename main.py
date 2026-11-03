@@ -116,7 +116,7 @@ def main() -> int:
     if not args.skip_plots:
         create_all_plots(df, tables)
 
-    # 5. Recommend
+    # 5. Recommendations
     if args.recommend:
         recommender = ContentRecommender(df).fit()
         try:
