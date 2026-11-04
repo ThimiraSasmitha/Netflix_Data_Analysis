@@ -62,13 +62,12 @@ MULTI_VALUE_COLUMNS = ["director", "cast", "country", "listed_in"]
 UNKNOWN = "Unknown"
 
 # Domain knowledge
-# Maps individual maturity ratings to broader audience groups
+# Maps indivdual maturity ratings to broader audience groups
 RATING_TO_GROUP = {
     # Kids
     "TV-Y": "Kids",
     "TV-G": "Kids",
     "G": "Kids",
-    # Older kids
     "TV-Y7": "Older Kids",
     "TV-Y7-FV": "Older Kids",
     "TV-PG": "Older Kids",
@@ -83,23 +82,16 @@ RATING_TO_GROUP = {
 }
 RATING_GROUP_ORDER = ["Kids", "Older Kids", "Teens", "Adults", "Unrated"]
 
-MONTH_ABBR = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-              "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+MONTH_ABBR = {"Jan", "Feb", "Mar", "Apr", "May", "Jun",
+               "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"}
 MONTH_FULL = ["January", "February", "March", "April", "May", "June",
               "July", "August", "September", "October", "November", "December"]
-
 # Analysis / modelling settings
 TOP_N = 10
-RANDOM_STATE = 42
+RANDOM_SEED = 42
 
 # Plot styling
 NETFLIX_RED = "#E50914"
 NETFLIX_BLACK = "#141414"
-NETFLIX_GREY = "#8C8C8C"
-TYPE_COLORS = {"Movie": NETFLIX_RED, "TV Show": "#564D4D"}
-
-
-def ensure_directories() -> None:
-    """Create every directory the pipeline writes to."""
-    for directory in (RAW_DIR, PROCESSED_DIR, FIGURES_DIR, TABLES_DIR):
-        directory.mkdir(parents=True, exist_ok=True)
+NETFLIX_GRAY = "#8C8C8C"
+TYPE_COLORS = {"Movie: NETFLIX_RED", "TV Show": #564D4D}
