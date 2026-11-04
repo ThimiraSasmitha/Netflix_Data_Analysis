@@ -26,10 +26,12 @@ def load_raw_data(path: str | Path = RAW_DATA_PATH) -> pd.DataFrame:
     if not path.exists():
         raise FileNotFoundError(
             f"Raw data file not found at {path}.\n"
-            f"Please download the Netflix dataset from Kaggle and place it in the "
-            f"data/raw directory."
-            f"See README.md for more details.")
+            "Download 'netflix_titles.csv' from "
+            "https://www.kaggle.com/datasets/shivamb/netflix-shows "
+            "and place it in data/raw/, or run `python main.py --sample` "
+            "to use synthetic demo data."
     logger.info(f"Loading raw data from {path}")
     df = pd.read_csv(path)
     validate_columns(df)
     return df
+
