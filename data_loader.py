@@ -38,8 +38,10 @@ def load_raw_data(path: str | Path = RAW_DATA_PATH) -> pd.DataFrame:
     return df
 
 def save_processed_data(df: pd.DataFrame, path: str | Path = PROCESSED_DATA_PATH) -> Path:
-    """Save the processed dataframe to disk."""
+    """Write the cleaned dataframe to disk."""
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     df.to_csv(path, index=False)
-    logger.info(f"Saved %s rows x %s columns to %s", *df.shape, path)
+    logger.info("Saved cleaned data (%s rows) to %s", len(df), path)
+    return path
+
