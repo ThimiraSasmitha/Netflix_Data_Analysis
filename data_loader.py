@@ -36,3 +36,10 @@ def load_raw_data(path: str | Path = RAW_DATA_PATH) -> pd.DataFrame:
     validate_columns(df)
     logger.info(f"Loaded %s rows x %s columns from %s", *df.shape, path)
     return df
+
+def save_processed_data(df: pd.DataFrame, path: str | Path = PROCESSED_DATA_PATH) -> Path:
+    """Save the processed dataframe to disk."""
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    df.to_csv(path, index=False)
+    logger.info(f"Saved %s rows x %s columns to %s", *df.shape, path)
