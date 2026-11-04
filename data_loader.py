@@ -30,8 +30,9 @@ def load_raw_data(path: str | Path = RAW_DATA_PATH) -> pd.DataFrame:
             "https://www.kaggle.com/datasets/shivamb/netflix-shows "
             "and place it in data/raw/, or run `python main.py --sample` "
             "to use synthetic demo data."
-    logger.info(f"Loading raw data from {path}")
+        )
+
     df = pd.read_csv(path)
     validate_columns(df)
+    logger.info(f"Loaded %s rows x %s columns from %s", *df.shape, path)
     return df
-
