@@ -8,3 +8,5 @@ from pathlib import Path
 import pandas as pd
  
 from config import PROCESSED_DATA_PATH, RAW_DATA_PATH, REQUIRED_COLUMNS
+
+logger = logging.getLogger(__name__)
