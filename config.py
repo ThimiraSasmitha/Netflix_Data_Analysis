@@ -94,4 +94,9 @@ RANDOM_SEED = 42
 NETFLIX_RED = "#E50914"
 NETFLIX_BLACK = "#141414"
 NETFLIX_GRAY = "#8C8C8C"
-TYPE_COLORS = {"Movie: NETFLIX_RED", "TV Show": #564D4D}
+TYPE_COLORS = {"Movie": NETFLIX_RED, "TV Show": "#564D4D"}
+
+def ensure_directories() -> None:
+    """Create every directory the pipeline writes to."""
+    for directory in [RAW_DIR, PROCESSED_DIR, FIGURES_DIR, TABLES_DIR]:
+        directory.mkdir(parents=True, exist_ok=True)
