@@ -45,3 +45,16 @@ def save_processed_data(df: pd.DataFrame, path: str | Path = PROCESSED_DATA_PATH
     logger.info("Saved cleaned data (%s rows) to %s", len(df), path)
     return path
 
+def load_processed_data(path: str | Path = PROCESSED_DATA_PATH) -> pd.DataFrame:
+    """Read the cleaned Netflix CSV and check that its schema is what we expect."""
+    path = Path(path)
+    if not path.exists():
+        raise FileNotFoundError(
+            f"Processed data file not found at {path}.\n"
+            "Run `python main.py --clean` to generate it."
+        )
+
+    df = pd.read_csv(path, parse_dates=["date_added"])
+    validate_columns(df)
+    logger.info(f"Loaded %s rows x %s columns from %s", *df.shape, path)
+    return df
