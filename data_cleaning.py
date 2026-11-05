@@ -29,3 +29,11 @@ def clean_data(df: pd.DataFrame) -> pd.DataFrame:
 
     logger.info("Cleaning finished: %s -> %s rows", rows_before, len(df))
     return df.reset_index(drop=True)
+
+def _strip_text_columns(df: pd.DataFrame) -> pd.DataFrame:
+    """Trim whitespace and turn empty strings into proper missing values."""
+    for col in TEXT_COLUMNS:
+       if col in df.columns:
+           df[col] = df[col].astype("string").str.strip().replace("", pd.NA)
+    return df
+
