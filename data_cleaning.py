@@ -51,3 +51,15 @@ def _fix_misplaced_durations(df: pd.DataFrame) -> pd.DataFrame:
         df.loc[mask, "rating"] = pd.NA
     return df
 
+def _drop_invalid_and_duplicate_rows(df: pd.DataFrame) -> pd.DataFrame:
+    """Remove rows without a title/type and any duplicated titles."""
+    before = len(df)
+    df = df.dropna(subset=["title", "type"])
+    df = df.drop_duplicates(subset="show_id")
+    df = df.drop_duplicates(subset=["title", "type", "release_year"])
+
+    removed = before - len(df)
+    if removed:
+        logger.info("Dropped %s invalid/duplicate rows", removed)
+    return df
+
