@@ -63,3 +63,17 @@ def _drop_invalid_and_duplicate_rows(df: pd.DataFrame) -> pd.DataFrame:
         logger.info("Dropped %s invalid/duplicate rows", removed)
     return df
 
+def _parse_dates(df: pd.DataFrame) -> pd.DataFrame:
+    """Parse `date_added` and derive calendar features plus the release lag."""
+    df["date_added"] = pd.to_datetime(df["date_added"], format="mixed", errors="coerce")
+    df["release_year"] = pd.to_numeric(df["release_year"], errors="coerce").astype("Int64")
+ 
+    df["year_added"] = df["date_added"].dt.year.astype("Int64")
+    df["month_added"] = df["date_added"].dt.month.astype("Int64")
+    df["month_name_added"] = df["date_added"].dt.month_name()
+    df["weekday_added"] = df["date_added"].dt.day_name()
+ 
+    lag = df["year_added"] - df["release_year"]
+    df["release_lag_years"] = lag.where(lag >= 0)
+    return df
+
