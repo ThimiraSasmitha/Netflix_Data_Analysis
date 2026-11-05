@@ -78,4 +78,40 @@ def _parse_dates(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 def _parse_duration(df: pd.DataFrame) -> pd.DataFrame:
-    
+    """
+    Split the text `duration` column ('90 min' / '3 Seasons') into two numeric
+    columns: `duration_minutes` for movies and `num_seasons` for TV shows.
+    """
+    number = pd.to_numeric(
+        df["duration"].str.extract(r"(\d+)", expand=False), errors="coerce"
+    )
+    is_movie = df["type"] == "Movie"
+    is_show = df["type"] == "TV Show"
+
+    df["duration_minutes"] = number.where(is_movie)
+    df["num_seasons"] = number.where(is_show)
+    return df
+
+def _fill_missing_values(df: pd.DataFrame) -> pd.DataFrame:
+    """Replace missing categorical values with an explicit 'Unknown' label."""
+    for col in ["director", "cast", "country", "rating", "listed_in"]:
+        df[col] = df[col].fillna(UNKNOWN)
+    df["description"] = df["description"].fillna("")
+    return df
+
+
+def _add_rating_group(df: pd.DataFrame) -> pd.DataFrame:
+    """Collapse the many TV/MPAA ratings into broader audience groups."""
+    df["rating_group"] = (
+        df["rating"].str.upper().map(RATING_TO_GROUP).fillna("Unrated")
+    )
+    return df
+
+
+def _add_helper_features(df: pd.DataFrame) -> pd.DataFrame:
+    """Add a few convenience columns used by the analysis and recommender."""
+    df["primary_country"] = df["country"].str.split(",").str[0].str.strip()
+    df["primary_genre"] = df["listed_in"].str.split(",").str[0].str.strip()
+    df["num_genres"] = df["listed_in"].str.count(",").add(1).where(df["listed_in"] != UNKNOWN, 0)
+    df["description_length"] = df["description"].str.split().str.len()
+    return df
