@@ -77,3 +77,4 @@ def _parse_dates(df: pd.DataFrame) -> pd.DataFrame:
     df["release_lag_years"] = lag.where(lag >= 0)
     return df
 
+def _parse_duration(df: )
