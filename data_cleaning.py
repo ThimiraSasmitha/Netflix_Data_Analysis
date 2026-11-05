@@ -37,3 +37,17 @@ def _strip_text_columns(df: pd.DataFrame) -> pd.DataFrame:
            df[col] = df[col].astype("string").str.strip().replace("", pd.NA)
     return df
 
+def _fix_misplaced_durations(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    A handful of rows in the public dataset have the runtime (e.g. '74 min')
+    stored in the `rating` column and an empty `duration`. Move it back.
+    """
+    looks_like_duration = df["rating"].str.match(r"^\d+\s+min$", case=False, na=False)
+    mask = looks_like_duration & df["duration"].isna()
+
+    if mask.any():
+        logger.info("Fixing %s rows with the duration stored in `rating`", mask.sum())
+        df.loc[mask, "duration"] = df.loc[mask, "rating"]
+        df.loc[mask, "rating"] = pd.NA
+    return df
+
