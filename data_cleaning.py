@@ -22,7 +22,7 @@ def clean_data(df: pd.DataFrame) -> pd.DataFrame:
     df = _fix_misplaced_durations(df)
     df = _drop_invalid_and_duplicate_rows(df)
     df = _parse_dates(df)
-    df = _fill_missing_values(df)
+    df = _parse_duration(df)
     df = _fill_missing_values(df)
     df = _add_rating_group(df)
     df = _add_helper_features(df)
@@ -77,6 +77,5 @@ def _parse_dates(df: pd.DataFrame) -> pd.DataFrame:
     df["release_lag_years"] = lag.where(lag >= 0)
     return df
 
-
-def _fill_missing_values(df):
+def _parse_duration(df: pd.DataFrame) -> pd.DataFrame:
     
