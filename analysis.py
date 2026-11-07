@@ -59,6 +59,7 @@ def dataset_overview(df: pd.DataFrame) -> pd.DataFrame:
     return pd.DataFrame({"metric": list(metrics), "value": list(metrics.values())})
 
 def type_distribution(df: pd.DataFrame) -> pd.DataFrame:
+    """Movies vs TV Shows: count and percentage."""
     out = df["type"].value_counts().rename_axis("type").reset_index(name="count")
     out["percentage"] = (out["count"] / out["count"].sum() * 100).round(1)
     return out
