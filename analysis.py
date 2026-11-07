@@ -41,3 +41,11 @@ def _filter_type(df: pd.DataFrame, content_type: str | None) -> pd.DataFrame:
 
 
 # Catalog overview
+def dataset_overview(df: pd.DataFrame) -> pd.DataFrame:
+    """Headline numbers describing the dataset."""
+    metrics = {
+           "Total titles": len(df),
+           "Movies": int((df["type"] == "Movie").sum()),
+           "TV Shows": int((df["type"] == "TV Show").sum()),
+    }
+    return pd.DataFrame({"metric": list(metrics), "value": list(metrics.values())})
