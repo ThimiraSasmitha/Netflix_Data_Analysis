@@ -22,7 +22,6 @@ from config import (
 logger = logging.getLogger(__name__)
 
 # Helpers
-
 def explode_multivalue(df: pd.DataFrame, column: str, sep: str = ",") -> pd.DataFrame:
         """
     Turn a comma-separated column into one row per value.
@@ -34,8 +33,11 @@ def explode_multivalue(df: pd.DataFrame, column: str, sep: str = ",") -> pd.Data
         exploded = df.assign(**{column: df[column].astype("string").str.split(sep)}).explode(column)
         exploded[column] = exploded[column].str.strip()
         keep = exploded[column].notna() & ~exploded[column].isin(["", UNKNOWN])
-        
+        # explode() repeats index labels; reset so crosstab/groupby alignment works
         return exploded[keep].reset_index(drop=True)
-                                                                                                                        
+
 def _filter_type(df: pd.DataFrame, content_type: str | None) -> pd.DataFrame:
         return df if content_type is None else df[df["type"] == content_type]
+
+
+# Catalog overview
