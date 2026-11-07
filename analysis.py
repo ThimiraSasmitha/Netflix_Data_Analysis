@@ -47,6 +47,9 @@ def dataset_overview(df: pd.DataFrame) -> pd.DataFrame:
            "Total titles": len(df),
            "Movies": int((df["type"] == "Movie").sum()),
            "TV Shows": int((df["type"] == "TV Show").sum()),
-           "Unique countries": explode_multivalue(df, "country"["co"])
+           "Unique countries": explode_multivalue(df, "country"["country"].nunique()),
+           "Unique genres": explode_multivalue(df, "listed_in"["listed_in"].nunique()),
+           "Unique directors": explode_multivalue(df, "director"["director"].nunique()),
+           "Unique actors": explode_multivalue(df, "cast"["cast"].nunique()),
     }
     return pd.DataFrame({"metric": list(metrics), "value": list(metrics.values())})
