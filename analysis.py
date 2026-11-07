@@ -31,4 +31,7 @@ def explode_multivalue(df: pd.DataFrame, column: str, sep: str = ",") -> pd.Data
     keep all the other columns of the original title. Empty and 'Unknown'
     entries are dropped.
     """
-        
+        exploded = df.assign(**{column: df[column].astype("string").str.split(sep)}).explode(column)
+        exploded[column] = exploded[column].str.strip()
+        keep = exploded[column].notna() & ~exploded[column].isin(["", UNKNOWN]
+                                                                 )
