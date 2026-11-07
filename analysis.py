@@ -43,4 +43,9 @@ def _filter_type(df: pd.DataFrame, content_type: str | None) -> pd.DataFrame:
 # Catalog overview
 def dataset_overview(df: pd.DataFrame) -> pd.DataFrame:
     """Headline numbers describing the dataset."""
-    
+    directory = Path(directory)
+    directory.mkdir(parents=True, exist_ok=True)
+    for name, table in tables.items():
+           keep_index = not isinstance(table.index, pd.RangeIndex)
+           table.to_csv(directory / f"{name}.csv", index=keep_index)
+    logger.info("Saved % tables to %s", len(tables), directory)
