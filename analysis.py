@@ -47,5 +47,6 @@ def dataset_overview(df: pd.DataFrame) -> pd.DataFrame:
            "Total titles": len(df),
            "Movies": int((df["type"] == "Movie").sum()),
            "TV Shows": int((df["type"] == "TV Show").sum()),
+           "Unique countries": explode_multivalue(df, "country"["co"])
     }
     return pd.DataFrame({"metric": list(metrics), "value": list(metrics.values())})
