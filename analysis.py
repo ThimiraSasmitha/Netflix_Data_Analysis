@@ -64,11 +64,13 @@ def type_distribution(df: pd.DataFrame) -> pd.DataFrame:
     out["percentage"] = (out["count"] / out["count"].sum() * 100).round(1)
     return out
 
+# Time-based analysis
 def titles_added_per_year(df: pd.DataFrame) -> pd.DataFrame:
     dated = df.dropna(subset=["year_added"])
     table = dated.groupby([dated["year_added"].astype(int),
 "type"]).size().unstack(fill_value=0)
     table = table.reindex(columns=["Movie", "TV Show"], fill_value=0)
+    # include years with zero additions so the time axis has no gasps
     table = table.reindex(range(table.index.min(), table.index.max() + 1), fill_value=0)
     table["Total"] = table.sum(axis=1)
     table.index.name = "year_added"
