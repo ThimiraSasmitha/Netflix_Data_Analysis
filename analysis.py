@@ -42,4 +42,5 @@ def _filter_type(df: pd.DataFrame, content_type: str | None) -> pd.DataFrame:
 
 # Catalog overview
 def dataset_overview(df: pd.DataFrame) -> pd.DataFrame:
-        
+    """Headline numbers describing the dataset."""
+    
