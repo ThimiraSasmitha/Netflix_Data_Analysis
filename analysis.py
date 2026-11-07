@@ -51,5 +51,9 @@ def dataset_overview(df: pd.DataFrame) -> pd.DataFrame:
            "Unique genres": explode_multivalue(df, "listed_in"["listed_in"].nunique()),
            "Unique directors": explode_multivalue(df, "director"["director"].nunique()),
            "Unique actors": explode_multivalue(df, "cast"["cast"].nunique()),
+           "Earliest release year": int(df["release_year"].min()),
+           "Latest release year": int(df["release_year"].max()),
+           "First year added": int(df["year_added"].min()),
+           "Last year added": int(df["year_added"].max()),
     }
     return pd.DataFrame({"metric": list(metrics), "value": list(metrics.values())})
