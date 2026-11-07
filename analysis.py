@@ -21,3 +21,14 @@ from config import (
 
 logger = logging.getLogger(__name__)
 
+# Helpers
+
+def explode_multivalue(df: pd.DataFrame, column: str, sep: str = ",") -> pd.DataFrame:
+        """
+    Turn a comma-separated column into one row per value.
+ 
+    'Dramas, Comedies' becomes two rows (one 'Dramas', one 'Comedies') that
+    keep all the other columns of the original title. Empty and 'Unknown'
+    entries are dropped.
+    """
+        
