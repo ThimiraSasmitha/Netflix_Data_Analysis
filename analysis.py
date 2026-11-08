@@ -78,3 +78,6 @@ def titles_added_per_year(df: pd.DataFrame) -> pd.DataFrame:
 
 def monthly_addition_matrix(df: pd.DataFrame) -> pd.DataFrame:
     dated = df.dropna(subset=["year_added", "month_added"])
+    matrix = pd.crosstab(dated["year_added", "month_added"])
+    matrix = matrix.reindex(columns=range(1, 13), fill_value=0)
+    
