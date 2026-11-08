@@ -110,3 +110,10 @@ def top_values(
     counts = explode_multivalue(subset. column)[column].value_counts().head(n)
     return counts.rename_axis(column).reset_index(name="count")
 
+def country_content_mix(df: pd.DataFrame, n: int = TOP_N) -> pd.DataFrame:
+    exploded = explode_multivalue(df, "country")
+    top = exploded["country"].value_counts().head(n).index
+    subset = exploded[exploded["country"].isin(top)]
+    mix = pd.crosstab(subset["country"], subset["type"]).loc[list(top)]
+    mix = mix.reindex(columns=["Movies", "TV Show"], fill_value=0)
+    return mix
