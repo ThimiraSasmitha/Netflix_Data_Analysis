@@ -75,3 +75,5 @@ def titles_added_per_year(df: pd.DataFrame) -> pd.DataFrame:
     table["Total"] = table.sum(axis=1)
     table.index.name = "year_added"
     return table
+
+def monthly_addition_matrix(df: pd.DataFrame) -> pd.DataFrame
