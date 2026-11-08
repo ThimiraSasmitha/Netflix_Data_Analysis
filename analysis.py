@@ -118,3 +118,11 @@ def country_content_mix(df: pd.DataFrame, n: int = TOP_N) -> pd.DataFrame:
     mix = pd.crosstab(subset["country"], subset["type"]).loc[list(top)]
     mix = mix.reindex(columns=["Movies", "TV Show"], fill_value=0)
     return mix
+
+def genre_trend_over_time(df: pd.DataFrame, n: int = 5) -> pd.DataFrame:
+    exploded = explode_multivalue(df.dropna(subset=["year_added"]), "listed_in")
+    top = list(exploded["listed_in"].value_counts().head(n).index)
+    subset = exploded[exploded["listed_in"].isin(top)]
+    trend = pd.crosstab(subset["year_added"].astype(int), subset["listed_in"])[top]
+    trend.index.name = "year_added"
+    return trend
