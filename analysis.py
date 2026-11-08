@@ -98,12 +98,15 @@ def release_lag_summary(df: pd.DataFrame) -> pd.DataFrame:
     lag = df["release_lag_years"].dropna().astype(float)
     return lag.describe().round(2).rename_axis("statistic").reset_index(name="years")
 
+# Who / Where / What
 def top_values(
     df: pd.DataFrame,
     column: str,
     n: int = TOP_N,
     content_type: str | None = None,
 ) -> pd.DataFrame:
+    """Most frequent values of a (possibly comma-separated) column."""  
     subset = _filter_type(df, content_type)
     counts = explode_multivalue(subset. column)[column].value_counts().head(n)
     return counts.rename_axis(column).reset_index(name="count")
+
