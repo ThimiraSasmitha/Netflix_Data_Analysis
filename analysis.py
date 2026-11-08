@@ -84,3 +84,4 @@ def monthly_addition_matrix(df: pd.DataFrame) -> pd.DataFrame:
     matrix.columns = MONTH_ABBR
     matrix.index.name = "year_added"
     return matrix
+
