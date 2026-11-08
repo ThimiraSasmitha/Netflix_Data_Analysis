@@ -85,3 +85,9 @@ def monthly_addition_matrix(df: pd.DataFrame) -> pd.DataFrame:
     matrix.index.name = "year_added"
     return matrix
 
+def release_decade_distribution(df: pd.DataFrame) -> pd.DataFrame:
+    valid = df.dropna(subset=["release_year"])
+    decade = (valid["release_year"].astype(int) // 10) * 10
+    table = pd.crosstab(decade, valid["type"])
+    table.index.name = "release_decade"
+    return table
