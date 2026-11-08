@@ -127,3 +127,11 @@ def genre_trend_over_time(df: pd.DataFrame, n: int = 5) -> pd.DataFrame:
     trend = pd.crosstab(subset["year_added"].astype(int), subset["listed_in"])[top]
     trend.index.name = "year_added"
     return trend
+
+def genre_cooccurrence(
+    df: pd.DataFrame, n: int = 12, content_type: str | None = "Movie"
+) -> pd.DataFrame:
+    exploded = explode_multivalue(_filter_type(df, content_type), "listed_in")
+    top = list(exploded["listed_in"].value_counts().head(n).index)
+    presence = pd.crosstab(exploded["show_id"], exploded["listed_in"])[top].gt(0).astype(int)
+    return presence.T.dot(presence)
