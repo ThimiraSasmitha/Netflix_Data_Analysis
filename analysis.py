@@ -131,6 +131,13 @@ def genre_trend_over_time(df: pd.DataFrame, n: int = 5) -> pd.DataFrame:
 def genre_cooccurrence(
     df: pd.DataFrame, n: int = 12, content_type: str | None = "Movie"
 ) -> pd.DataFrame:
+    """
+    Symmetric matrix counting how often two genres are listed on the same
+    title. The diagonal holds each genre's total number of titles.
+ 
+    Movie and TV genres never overlap, so the matrix is computed for a single
+    content type (movies by default).
+    """
     exploded = explode_multivalue(_filter_type(df, content_type), "listed_in")
     top = list(exploded["listed_in"].value_counts().head(n).index)
     presence = pd.crosstab(exploded["show_id"], exploded["listed_in"])[top].gt(0).astype(int)
