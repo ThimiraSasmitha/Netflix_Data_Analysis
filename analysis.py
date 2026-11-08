@@ -98,7 +98,7 @@ def release_lag_summary(df: pd.DataFrame) -> pd.DataFrame:
     lag = df["release_lag_years"].dropna().astype(float)
     return lag.describe().round(2).rename_axis("statistic").reset_index(name="years")
 
-# Who / Where / What
+# Who? / Where? / What?
 def top_values(
     df: pd.DataFrame,
     column: str,
