@@ -94,5 +94,16 @@ def release_decade_distribution(df: pd.DataFrame) -> pd.DataFrame:
     return table
 
 def release_lag_summary(df: pd.DataFrame) -> pd.DataFrame:
+    """Statistics on the gap (years) between release and arrival on Netflix."""
     lag = df["release_lag_years"].dropna().astype(float)
     return lag.describe().round(2).rename_axis("statistic").reset_index(name="years")
+
+def top_values(
+    df: pd.DataFrame,
+    column: str,
+    n: int = TOP_N,
+    content_type: str | None = None,
+) -> pd.DataFrame:
+    subset = _filter_type(df, content_type)
+    counts = explode_multivalue(subset. column)[column].value_counts().head(n)
+    return counts.rename_axis(column).reset_index(name="count")
