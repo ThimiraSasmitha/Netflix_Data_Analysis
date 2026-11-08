@@ -111,6 +111,7 @@ def top_values(
     return counts.rename_axis(column).reset_index(name="count")
 
 def country_content_mix(df: pd.DataFrame, n: int = TOP_N) -> pd.DataFrame:
+    """Movies vs TV Shows for the n countries that produce the most titles."""
     exploded = explode_multivalue(df, "country")
     top = exploded["country"].value_counts().head(n).index
     subset = exploded[exploded["country"].isin(top)]
