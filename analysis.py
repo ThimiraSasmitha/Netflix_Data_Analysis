@@ -120,6 +120,7 @@ def country_content_mix(df: pd.DataFrame, n: int = TOP_N) -> pd.DataFrame:
     return mix
 
 def genre_trend_over_time(df: pd.DataFrame, n: int = 5) -> pd.DataFrame:
+    """Titles added per year for the n most common genres."""
     exploded = explode_multivalue(df.dropna(subset=["year_added"]), "listed_in")
     top = list(exploded["listed_in"].value_counts().head(n).index)
     subset = exploded[exploded["listed_in"].isin(top)]
