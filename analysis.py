@@ -143,7 +143,9 @@ def genre_cooccurrence(
     presence = pd.crosstab(exploded["show_id"], exploded["listed_in"])[top].gt(0).astype(int)
     return presence.T.dot(presence)
 
+# Ratings and durations
 def rating_distribution(df: pd.DataFrame) -> pd.DataFrame:
+    """Count of titles per rating (TV-MA, PG-13, ...), split by type."""
     table = pd.crosstab(df["rating"], df["type"])
     table["Total"] = table.sum(axis=1)
     return table.sort_values("Total", ascending=False)
