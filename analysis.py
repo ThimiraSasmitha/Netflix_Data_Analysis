@@ -149,3 +149,8 @@ def rating_distribution(df: pd.DataFrame) -> pd.DataFrame:
     table = pd.crosstab(df["rating"], df["type"])
     table["Total"] = table.sum(axis=1)
     return table.sort_values("Total", ascending=False)
+
+def rating_group_distribution(df: pd.DataFrame) -> pd.DataFrame:
+    """Same as above but with ratings collapsed into audience groups."""
+    table = pd.crosstab(df["rating_group"], df["type"])
+    return table.reindex(RATING_GROUP_ORDER, fill_value=0)
