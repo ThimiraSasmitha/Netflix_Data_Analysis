@@ -169,4 +169,24 @@ def tv_season_summary(df: pd.DataFrame) -> pd.DataFrame:
 def run_all_analyses(df: pd.DataFrame) -> dict[str, pd.DataFrame]:
     """Run every analysis and return the results keyed by table name."""    
     logger.info("Running analyses...")
-    return
+    return{
+        "overview": dataset_overview(df),
+        "type_distribution": type_distribution(df),
+        "titles_added_per_year": titles_added_per_year(df),
+        "monthly_additions": monthly_addition_matrix(df),
+        "release_decades": release_decade_distribution(df),
+        "release_lag_summary": release_lag_summary(df),
+        "top_countries": top_values(df, "country"),
+        "country_mix": country_content_mix(df),
+        "top_genres": top_values(df, "listed_in"),
+        "top_genres_movies": top_values(df, "listed_in", content_type="Movie"),
+        "top_genres_tv": top_values(df, "listed_in", content_type="TV Show"),
+        "top_directors": top_values(df, "director"),
+        "top_actors": top_values(df, "cast"),
+        "genre_trends": genre_trend_over_time(df),
+        "genre_cooccurrence_movies": genre_cooccurrence(df, content_type="Movie"),
+        "rating_distribution": rating_distribution(df),
+        "rating_groups": rating_group_distribution(df),
+        "movie_duration_summary": movie_duration_summary(df),
+        "tv_season_summary": tv_season_summary(df),
+    }
