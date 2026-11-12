@@ -254,3 +254,11 @@ def generate_insights(df: pd.DataFrame, tables: dict[str, pd.DataFrame]) -> list
         insights.append(
             f"Content aimed at '{top_group}' dominates ({groups.max() / groups.sum() * 100:.1f}% of titles)."
         )
+
+    # Movie runtime
+    movies = df.loc[df["type"] == "Movie", "duration_minutes"].dropna().astype(float)
+    if not movies.empty:
+        insights.append(
+            f"The median movie runs {movies.median():.0f} minutes, and "
+            f"{(movies > 120).mean() * 100:.1f}% of movies are longer than two hours."
+        )
