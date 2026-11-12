@@ -190,3 +190,11 @@ def run_all_analyses(df: pd.DataFrame) -> dict[str, pd.DataFrame]:
         "movie_duration_summary": movie_duration_summary(df),
         "tv_season_summary": tv_season_summary(df),
     }
+
+def save_tables(tables: dict[str, pd.DataFrame], directory: Path = TABLES_DIR) -> None:
+    directory = Path(directory)
+    directory.mkdir(parents=True, exist_ok=True)
+    for name, table in tables.items():
+        keep_index = not isinstance(table.index, pd.RangeIndex)
+        table.to_csv(directory / f"{name}.csv", index=keep_index)
+    logger.info("Saved %s tables to %s", len(tables), directory)
