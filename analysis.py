@@ -220,3 +220,11 @@ def generate_insights(df: pd.DataFrame, tables: dict[str, pd.DataFrame]) -> list
         insights.append(
             f"The busiest year for new additions was {peak_year}, with {int(yearly['Total'].max()):,} titles added."
         )
+
+    # Seasonality
+    yearly = tables["titles_added_per_year"]
+    if not yearly.empty:
+        peak_year = int(yearly["Total"].idxmax())
+        insights.append(
+            f"The busiest year for new additions was {peak_year}, with {int(yearly['Total'].max()):,} titles added."
+        )
