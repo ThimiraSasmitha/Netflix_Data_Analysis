@@ -192,6 +192,7 @@ def run_all_analyses(df: pd.DataFrame) -> dict[str, pd.DataFrame]:
     }
 
 def save_tables(tables: dict[str, pd.DataFrame], directory: Path = TABLES_DIR) -> None:
+    """Export every result table to CSV."""
     directory = Path(directory)
     directory.mkdir(parents=True, exist_ok=True)
     for name, table in tables.items():
