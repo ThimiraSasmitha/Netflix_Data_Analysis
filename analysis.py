@@ -154,3 +154,8 @@ def rating_group_distribution(df: pd.DataFrame) -> pd.DataFrame:
     """Same as above but with ratings collapsed into audience groups."""
     table = pd.crosstab(df["rating_group"], df["type"])
     return table.reindex(RATING_GROUP_ORDER, fill_value=0)
+
+def movie_duration_summary(df: pd.DataFrame) -> pd.DataFrame:
+    """Descriptive statistics of movie runtimes (minutes)."""
+    minutes = df.loc[df["type"] == "Movie", "duration_minutes"].dropna().astype(float)
+    return minutes.describe().round(1).rename_axis("statistic").reset_index(name="minutes")
