@@ -271,4 +271,10 @@ def generate_insights(df: pd.DataFrame, tables: dict[str, pd.DataFrame]) -> list
             f"(median: {seasons.median():.0f})."
         )
 
-    
+    # Freshness
+    lag = df["release_lag_years"].dropna().astype(float)
+    if not lag.empty:
+        insights.append(
+            f"Titles typically arrive {lag.median():.0f} year(s) after release, and "
+            f"{(lag <= 2).mean() * 100:.1f}% are added within two years of their release."
+        )
