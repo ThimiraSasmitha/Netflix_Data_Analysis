@@ -222,9 +222,11 @@ def generate_insights(df: pd.DataFrame, tables: dict[str, pd.DataFrame]) -> list
         )
 
     # Seasonality
-    yearly = tables["titles_added_per_year"]
-    if not yearly.empty:
-        peak_year = int(yearly["Total"].idxmax())
+    monthly = tables["monthly_additions"]
+    if not monthly.empty:
+        month_totals = monthly.sum()
         insights.append(
-            f"The busiest year for new additions was {peak_year}, with {int(yearly['Total'].max()):,} titles added."
+            f"{month_totals.idxmax()} is the most popular month for adding content "
+            f"({int(month_totals.max()):,} titles over all years); "
+            f"{month_totals.idxmin()} is the quietest ({int(month_totals.min()):,})."
         )
