@@ -246,3 +246,11 @@ def generate_insights(df: pd.DataFrame, tables: dict[str, pd.DataFrame]) -> list
     if not genres.empty:
         top_g = ", ".join(genres["listed_in"].head(3))
         insights.append(f"The three most common genres are: {top_g}.")
+
+    # Audience
+    groups = tables["rating_groups"].sum(axis=1)
+    if groups.sum() > 0:
+        top_group = groups.idxmax()
+        insights.append(
+            f"Content aimed at '{top_group}' dominates ({groups.max() / groups.sum() * 100:.1f}% of titles)."
+        )
