@@ -278,3 +278,17 @@ def generate_insights(df: pd.DataFrame, tables: dict[str, pd.DataFrame]) -> list
             f"Titles typically arrive {lag.median():.0f} year(s) after release, and "
             f"{(lag <= 2).mean() * 100:.1f}% are added within two years of their release."
         )
+
+    # People
+    directors = tables["top_directors"]
+    actors = tables["top_actors"]
+    if not directors.empty:
+        insights.append(
+            f"Most frequent director: {directors.iloc[0]['director']} "
+            f"({int(directors.iloc[0]['count'])} titles)."
+        )
+    if not actors.empty:
+        insights.append(
+            f"Most frequent cast member: {actors.iloc[0]['cast']} "
+            f"({int(actors.iloc[0]['count'])} titles)."
+        )
