@@ -164,3 +164,6 @@ def tv_season_summary(df: pd.DataFrame) -> pd.DataFrame:
     """Descriptive statistics of the number of seasons of TV shows."""
     seasons = df.loc[df["type"] == "TV Show", "num_seasons"].dropna().astype(float)
     return seasons.describe().round(1).rename_axis("statistic").reset_index(name="seasons")
+
+def run_all_analyses(df: pd.DataFrame) -> dict[str, pd.DataFrame]:
+    logger.info("Running analyses...")
