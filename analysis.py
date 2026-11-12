@@ -199,3 +199,6 @@ def save_tables(tables: dict[str, pd.DataFrame], directory: Path = TABLES_DIR) -
         keep_index = not isinstance(table.index, pd.RangeIndex)
         table.to_csv(directory / f"{name}.csv", index=keep_index)
     logger.info("Saved %s tables to %s", len(tables), directory)
+
+def generate_insights(df: pd.DataFrame, tables: dict[str, pd.DataFrame]) -> list[str]:
+    insights: list[str] = []
