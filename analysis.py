@@ -241,4 +241,8 @@ def generate_insights(df: pd.DataFrame, tables: dict[str, pd.DataFrame]) -> list
             f"({share:.1f}% of the catalog)."
         )
 
-    
+    # Genres
+    genres = tables["top_genres"]
+    if not genres.empty:
+        top_g = ", ".join(genres["listed_in"].head(3))
+        insights.append(f"The three most common genres are: {top_g}.")
