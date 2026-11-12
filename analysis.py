@@ -292,3 +292,5 @@ def generate_insights(df: pd.DataFrame, tables: dict[str, pd.DataFrame]) -> list
             f"Most frequent cast member: {actors.iloc[0]['cast']} "
             f"({int(actors.iloc[0]['count'])} titles)."
         )
+
+    return insights
