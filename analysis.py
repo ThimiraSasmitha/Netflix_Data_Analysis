@@ -156,6 +156,6 @@ def rating_group_distribution(df: pd.DataFrame) -> pd.DataFrame:
     return table.reindex(RATING_GROUP_ORDER, fill_value=0)
 
 def movie_duration_summary(df: pd.DataFrame) -> pd.DataFrame:
-    """Descriptive statistics of movie runtimes (minutes)."""
+    """Descriptive statistics of movie runtimes in minutes."""
     minutes = df.loc[df["type"] == "Movie", "duration_minutes"].dropna().astype(float)
     return minutes.describe().round(1).rename_axis("statistic").reset_index(name="minutes")
