@@ -204,3 +204,11 @@ def save_tables(tables: dict[str, pd.DataFrame], directory: Path = TABLES_DIR) -
 def generate_insights(df: pd.DataFrame, tables: dict[str, pd.DataFrame]) -> list[str]:
     """Turn the result tables into a list of human-readable findings."""
     insights: list[str] = []
+
+    # Catalog composition
+    dist = tables["type_distribution"].set_index("type")
+    movie_pct = dist["percentage"].get("Movie", 0.0)
+    show_pct = dist["percentage"].get("TV Show", 0.0)
+    insights.append(
+        f"The catalog holds {len(df):,} titles: {movie_pct:.1f}% movies and {show_pct:.1f}% TV shows."
+    )
