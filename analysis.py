@@ -161,5 +161,6 @@ def movie_duration_summary(df: pd.DataFrame) -> pd.DataFrame:
     return minutes.describe().round(1).rename_axis("statistic").reset_index(name="minutes")
 
 def tv_season_summary(df: pd.DataFrame) -> pd.DataFrame:
+    """Descriptive statistics of the number of seasons of TV shows."""
     seasons = df.loc[df["type"] == "TV Show", "num_seasons"].dropna().astype(float)
     return seasons.describe().round(1).rename_axis("statistic").reset_index(name="seasons")
