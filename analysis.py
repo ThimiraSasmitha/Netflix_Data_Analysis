@@ -262,3 +262,13 @@ def generate_insights(df: pd.DataFrame, tables: dict[str, pd.DataFrame]) -> list
             f"The median movie runs {movies.median():.0f} minutes, and "
             f"{(movies > 120).mean() * 100:.1f}% of movies are longer than two hours."
         )
+
+    # TV seasons
+    seasons = df.loc[df["type"] == "TV Show", "num_seasons"].dropna().astype(float)
+    if not seasons.empty:
+        insights.append(
+            f"{(seasons == 1).mean() * 100:.1f}% of TV shows have only a single season "
+            f"(median: {seasons.median():.0f})."
+        )
+
+    
