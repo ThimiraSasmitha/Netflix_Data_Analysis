@@ -230,3 +230,15 @@ def generate_insights(df: pd.DataFrame, tables: dict[str, pd.DataFrame]) -> list
             f"({int(month_totals.max()):,} titles over all years); "
             f"{month_totals.idxmin()} is the quietest ({int(month_totals.min()):,})."
         )
+
+    # Geography
+    countries = tables["top_countries"]
+    if not countries.empty:
+        top = countries.iloc[0]
+        share = top["count"] / len(df) * 100
+        insights.append(
+            f"{top['country']} leads production with {int(top['count']):,} titles "
+            f"({share:.1f}% of the catalog)."
+        )
+
+    
