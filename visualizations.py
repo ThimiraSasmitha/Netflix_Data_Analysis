@@ -63,3 +63,10 @@ def plot_type_distribution(type_dist: pd.DataFrame) -> Path:
         pctdistance=0.8,
         wedgeprops={"width": 0.4, "edgecolor": "white"},
     )
+
+    for text in autotexts:
+        text.set_color("white")
+        text.set_fontweight("bold")
+    ax.set_title("Movies vs TV Shows")
+    return _save(fig, "01_type_distribution.png")
+
