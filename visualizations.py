@@ -41,3 +41,8 @@ def _save(fig: plt.Figure, filename: str) -> Path:
     plt.close(fig)
     logger.info("Saved figure %s", path.name)
     return path
+
+def _hide_x_grid(ax: plt.Axes) -> None:
+    """Vertical gridlines add noise to column charts."""
+    ax.xaxis.grid(False)
+
