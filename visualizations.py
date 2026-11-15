@@ -23,3 +23,13 @@ from config import FIGURES_DIR, NETFLIX_BLACK, NETFLIX_GRAY, NETFLIX_RED, TYPE_C
 
 logger = logging.getLogger(__name__)
 
+sns.set_theme(style="whitegrid", context="notebook")
+plt.rcParams.update(
+    {
+        "axes.titleweight": "bold",
+        "axes.titlesize": 14,
+        "axes.spines.top": False,
+        "axes.spines.right": False,
+        "figure.dpi": 100
+    }
+)
