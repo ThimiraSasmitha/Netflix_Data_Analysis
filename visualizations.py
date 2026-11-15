@@ -33,3 +33,11 @@ plt.rcParams.update(
         "figure.dpi": 100
     }
 )
+
+def _save(fig: plt.Figure, filename: str) -> Path:
+    FIGURES_DIR.mkdir(parents=True, exist_ok=True)
+    path = FIGURES_DIR / filename
+    fig.savefig(path, dpi=150, bbox_inches="tight")
+    plt.close(fig)
+    logger.info("Saved figure %s", path.name)
+    return path
