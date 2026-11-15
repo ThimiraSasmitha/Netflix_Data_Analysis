@@ -52,6 +52,7 @@ def _type_colors(columns) -> list[str]:
 # Catalog composition
 
 def plot_type_distribution(type_dist: pd.DataFrame) -> Path:
+    """Donut chart of Movies vs TV Shows."""
     fig, ax = plt.subplots(figsize=(6, 6))
     _, _, autotexts = ax.pie(
         type_dist["count"],
