@@ -48,3 +48,6 @@ def _hide_x_grid(ax: plt.Axes) -> None:
 
 def _type_colors(columns) -> list[str]:
     return [TYPE_COLORS.get(col, NETFLIX_GREY) for col in columns]
+
+# Catalog composition
+
