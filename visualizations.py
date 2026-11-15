@@ -51,3 +51,14 @@ def _type_colors(columns) -> list[str]:
 
 # Catalog composition
 
+def plot_type_distribution(type_dist: pd.DataFrame) -> Path:
+    fig, ax = plt.subplots(figsize=(6, 6))
+    _, _, autotexts = ax.pie(
+        type_dist["count"],
+        labels=type_dist["type"],
+        colors=_type_colors(type_dist["type"]),
+        autopct="%1.1f%%",
+        startangle=90,
+        pctdistance=0.8,
+        wedgeprops={"width": 0.4, "edgecolor": "white"},
+    )
