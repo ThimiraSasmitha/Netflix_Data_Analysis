@@ -83,6 +83,19 @@ def plot_rating_distribution(table: pd.DataFrame, top: int = 12) -> Path:
     _hide_x_grid(ax)
     return _save(fig, "02_rating_distribution.png")
 
+def plot_rating_groups(table: pd.DataFrame) -> Path:
+    """Grouped bars of audience groups (Kids / Teens / Adults ...)."""
+    fig, ax = plt.subplots(figsize=(9, 5.5))
+    table.plot(kind="bar", ax=ax, color=_type_colors(table.columns0), width=0.75)
+    ax.set_title("Who is Netflix Content Made For?")
+    ax.set_xlabel("")
+    ax.set_ylabel("Number of titles")
+    ax.legend(title="")
+    plt.setp(ax.get_xticklabels(), rotation=0)
+    _hide_x_grid(ax)
+    return _save(fig, "03_rating_group.png")
+
+# Time
 def plot_additions_over_time(yearly: pd.DataFrame) -> Path:
     """Stacked bars: titles added per year."""
     data = yearly.drop(columns="Total")
@@ -95,15 +108,3 @@ def plot_additions_over_time(yearly: pd.DataFrame) -> Path:
     plt.setp(ax.get_xticklabels(), rotation=45, ha="right")
     _hide_x_grid(ax)
     return _save(fig, "04_additions_per_year.png")
-
-def plot_rating_groups(table: pd.DataFrame) -> Path:
-    """Grouped bars of audience groups (Kids / Teens / Adults ...)."""
-    fig, ax = plt.subplots(figsize=(9, 5.5))
-    table.plot(kind="bar", ax=ax, color=_type_colors(table.columns0), width=0.75)
-    ax.set_title("Who is Netflix Content Made For?")
-    ax.set_xlabel("")
-    ax.set_ylabel("Number of titles")
-    ax.legend(title="")
-    plt.setp(ax.get_xticklabels(), rotation=0)
-    _hide_x_grid(ax)
-    return _save(fig, "03_rating_group.png")
