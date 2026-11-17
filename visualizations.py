@@ -83,6 +83,19 @@ def plot_rating_distribution(table: pd.DataFrame, top: int = 12) -> Path:
     _hide_x_grid(ax)
     return _save(fig, "02_rating_distribution.png")
 
+def plot_additions_over_time(yearly: pd.DataFrame) -> Path:
+    """Stacked bars: titles added per year."""
+    data = yearly.drop(columns="Total")
+    fig, ax = plt.subplots(figsize=(11, 6))
+    data.plot(kind="bar", stacked=True, ax=ax, color=_type_colors(data.columns), width=0.8)
+    ax.set_title("Titles Added to Netflix per Year")
+    ax.set_xlabel("Year added")
+    ax.set_ylabel("Number of titles")
+    ax.legend(title="")
+    plt.setp(ax.get_xticklabels(), rotation=45, ha="right")
+    _hide_x_grid(ax)
+    return _save(fig, "04_additions_per_year.png")
+
 def plot_rating_groups(table: pd.DataFrame) -> Path:
     """Grouped bars of audience groups (Kids / Teens / Adults ...)."""
     fig, ax = plt.subplots(figsize=(9, 5.5))
