@@ -134,3 +134,13 @@ def plot_release_lag(df: pd.DataFrame, max_years: int = 15) -> Path:
     ax.legend()
     _hide_x_grid(ax)
     return _save(fig, "07_release_lag.png")
+
+def plot_genre_trends(trend: pd.DataFrame) -> Path:
+    """Lines: how the top genres grew over time."""
+    fig, ax = plt.subplots(figsize=(11, 6))
+    trend.plot(ax=ax, marker="o", linewidth=2, colormap="Set1")
+    ax.set_title("Top Genres Over Time")
+    ax.set_xlabel("Year added")
+    ax.set_ylabel("Titles added")
+    ax.legend(title="", loc="upper left")
+    return _save(fig, "08_genre_trends.png")
