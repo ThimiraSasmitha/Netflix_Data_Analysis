@@ -108,3 +108,103 @@ def plot_additions_over_time(yearly: pd.DataFrame) -> Path:
     plt.setp(ax.get_xticklabels(), rotation=45, ha="right")
     _hide_x_grid(ax)
     return _save(fig, "04_additions_per_year.png")
+
+
+def plot_monthly_heatmap(matrix: pd.DataFrame) -> Path:
+    """Heatmap of additions by year and month."""
+    fig, ax = plt.subplots(figsize=(11, 0.45 * len(matrix) + 2.5))
+    sns.heatmap(
+        matrix, cmap="Reds", annot=True, fmt="d", linewidths=0.5,
+        cbar_kws={"label": "Titles added"}, ax=ax,
+    )
+    ax.grid(False)
+    ax.set_title("When Is Content Added? (Year x Month)")
+    ax.set_xlabel("")
+    ax.set_ylabel("Year added")
+    return _save(fig, "05_monthly_heatmap.png")
+
+
+def plot_release_decades(table: pd.DataFrame) -> Path:
+    """How old is the catalog? Titles per release decade."""
+    fig, ax = plt.subplots(figsize=(10, 5.5))
+    table.plot(kind="bar", stacked=True, ax=ax, color=_type_colors(table.columns), width=0.8)
+    ax.set_title("Catalog by Release Decade")
+    ax.set_xlabel("Release decade")
+    ax.set_ylabel("Number of titles")
+    ax.legend(title="")
+    plt.setp(ax.get_xticklabels(), rotation=0)
+    _hide_x_grid(ax)
+    return _save(fig, "06_release_decades.png")
+
+
+def plot_release_lag(df: pd.DataFrame, max_years: int = 15) -> Path:
+    """Histogram of years between release and arrival on Netflix."""
+    lag = df["release_lag_years"].dropna().astype(float).clip(upper=max_years)
+    fig, ax = plt.subplots(figsize=(9, 5.5))
+    sns.histplot(lag, bins=np.arange(0, max_years + 2) - 0.5, color=NETFLIX_RED, ax=ax)
+    ax.axvline(lag.median(), color=NETFLIX_BLACK, linestyle="--", label=f"Median: {lag.median():.0f} yr")
+    ax.set_title("Years Between Release and Netflix Arrival")
+    ax.set_xlabel(f"Years (capped at {max_years}+)")
+    ax.set_ylabel("Number of titles")
+    ax.legend()
+    _hide_x_grid(ax)
+    return _save(fig, "07_release_lag.png")
+
+
+def plot_genre_trends(trend: pd.DataFrame) -> Path:
+    """Lines: how the top genres grew over time."""
+    fig, ax = plt.subplots(figsize=(11, 6))
+    trend.plot(ax=ax, marker="o", linewidth=2, colormap="Set1")
+    ax.set_title("Top Genres Over Time")
+    ax.set_xlabel("Year added")
+    ax.set_ylabel("Titles added")
+    ax.legend(title="", loc="upper left")
+    return _save(fig, "08_genre_trends.png")
+
+
+# Who / where / what
+def plot_top_barh(
+    table: pd.DataFrame,
+    label_col: str,
+    title: str,
+    filename: str,
+    color: str = NETFLIX_RED,
+) -> Path:
+    """Generic horizontal bar chart for 'top N' tables."""
+    data = table.sort_values("count")
+    fig, ax = plt.subplots(figsize=(9, 0.5 * len(data) + 2))
+    bars = ax.barh(data[label_col], data["count"], color=color)
+    ax.bar_label(bars, padding=3)
+    ax.set_title(title)
+    ax.set_xlabel("Number of titles")
+    ax.set_ylabel("")
+    ax.margins(x=0.1)
+    return _save(fig, filename)
+
+
+def plot_country_mix(mix: pd.DataFrame) -> Path:
+    """Stacked horizontal bars: top countries split by Movie / TV Show."""
+    data = mix.assign(_total=mix.sum(axis=1)).sort_values("_total").drop(columns="_total")
+    fig, ax = plt.subplots(figsize=(10, 0.55 * len(data) + 2))
+    data.plot(kind="barh", stacked=True, ax=ax, color=_type_colors(data.columns), width=0.75)
+    ax.set_title("Top Content-Producing Countries")
+    ax.set_xlabel("Number of titles")
+    ax.set_ylabel("")
+    ax.legend(title="")
+    return _save(fig, "09_top_countries.png")
+
+
+def plot_genre_cooccurrence(matrix: pd.DataFrame) -> Path:
+    """Heatmap of genres that are listed together (diagonal hidden)."""
+    mask = np.eye(len(matrix), dtype=bool)
+    fig, ax = plt.subplots(figsize=(11, 9))
+    sns.heatmap(
+        matrix, mask=mask, cmap="Reds", annot=True, fmt="d", linewidths=0.5,
+        cbar_kws={"label": "Titles sharing both genres"}, ax=ax,
+    )
+    ax.grid(False)
+    ax.set_title("Which Movie Genres Go Together?")
+    ax.set_xlabel("")
+    ax.set_ylabel("")
+    plt.setp(ax.get_xticklabels(), rotation=45, ha="right")
+    return _save(fig, "13_genre_cooccurrence.png")
