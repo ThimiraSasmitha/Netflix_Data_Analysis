@@ -108,3 +108,39 @@ def plot_additions_over_time(yearly: pd.DataFrame) -> Path:
     plt.setp(ax.get_xticklabels(), rotation=45, ha="right")
     _hide_x_grid(ax)
     return _save(fig, "04_additions_per_year.png")
+
+def plot_release_decades(table: pd.DataFrame) -> Path:
+    """How old is the catalog? Titles per release decade."""
+    fig, ax = plt.subplots(figsize=(10, 5.5))
+    table.plot(kind="bar", stacked=True, ax=ax, color=_type_colors(table.columns), width=0.8)
+    ax.set_title("Catalog by Release Decade")
+    ax.set_xlabel("Release decade")
+    ax.set_ylabel("Number of titles")
+    ax.legend(title="")
+    plt.setp(ax.get_xticklabels(), rotation=0)
+    _hide_x_grid(ax)
+    return _save(fig, "06_release_decades.png")
+
+
+def plot_release_lag(df: pd.DataFrame, max_years: int = 15) -> Path:
+    """Histogram of years between release and arrival on Netflix."""
+    lag = df["release_lag_years"].dropna().astype(float).clip(upper=max_years)
+    fig, ax = plt.subplots(figsize=(9, 5.5))
+    sns.histplot(lag, bins=np.arange(0, max_years + 2) - 0.5, color=NETFLIX_RED, ax=ax)
+    ax.axvline(lag.median(), color=NETFLIX_BLACK, linestyle="--", label=f"Median: {lag.median():.0f} yr")
+    ax.set_title("Years Between Release and Netflix Arrival")
+    ax.set_xlabel(f"Years (capped at {max_years}+)")
+    ax.set_ylabel("Number of titles")
+    ax.legend()
+    _hide_x_grid(ax)
+    return _save(fig, "07_release_lag.png")
+
+def plot_genre_trends(trend: pd.DataFrame) -> Path:
+    """Lines: how the top genres grew over time."""
+    fig, ax = plt.subplots(figsize=(11, 6))
+    trend.plot(ax=ax, marker="o", linewidth=2, colormap="Set1")
+    ax.set_title("Top Genres Over Time")
+    ax.set_xlabel("Year added")
+    ax.set_ylabel("Titles added")
+    ax.legend(title="", loc="upper left")
+    return _save(fig, "08_genre_trends.png")
