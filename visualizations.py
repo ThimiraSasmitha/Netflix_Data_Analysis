@@ -108,3 +108,16 @@ def plot_additions_over_time(yearly: pd.DataFrame) -> Path:
     plt.setp(ax.get_xticklabels(), rotation=45, ha="right")
     _hide_x_grid(ax)
     return _save(fig, "04_additions_per_year.png")
+
+def plot_monthly_heatmap(matrix: pd.DataFrame) -> Path:
+    """Heatmap of additions by year and month."""
+    fig, ax = plt.subplots(figsize=(11, 0.45 * len(matrix) + 2.5))
+    sns.heatmap(
+        matrix, cmap="Reds", annot=True, fmt="d", linewidths=0.5,
+        cbar_kws={"label": "Titles added"}, ax=ax,
+    )
+    ax.grid(False)
+    ax.set_title("When Is Content Added? (Year x Month)")
+    ax.set_xlabel("")
+    ax.set_ylabel("Year added")
+    return _save(fig, "05_monthly_heatmap.png")
