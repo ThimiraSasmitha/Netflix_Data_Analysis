@@ -144,3 +144,51 @@ def plot_genre_trends(trend: pd.DataFrame) -> Path:
     ax.set_ylabel("Titles added")
     ax.legend(title="", loc="upper left")
     return _save(fig, "08_genre_trends.png")
+
+# Who / where / what
+def plot_top_barh(
+    table: pd.DataFrame,
+    label_col: str,
+    title: str,
+    filename: str,
+    color: str = NETFLIX_RED,
+) -> Path:
+    """Generic horizontal bar chart for 'top N' tables."""
+    data = table.sort_values("count")
+    fig, ax = plt.subplots(figsize=(9, 0.5 * len(data) + 2))
+    bars = ax.barh(data[label_col], data["count"], color=color)
+    ax.bar_label(bars, padding=3)
+    ax.set_title(title)
+    ax.set_xlabel("Number of titles")
+    ax.set_ylabel("")
+    ax.margins(x=0.1)
+    return _save(fig, filename)
+
+
+def plot_country_mix(mix: pd.DataFrame) -> Path:
+    """Stacked horizontal bars: top countries split by Movie / TV Show."""
+    data = mix.assign(_total=mix.sum(axis=1)).sort_values("_total").drop(columns="_total")
+    fig, ax = plt.subplots(figsize=(10, 0.55 * len(data) + 2))
+    data.plot(kind="barh", stacked=True, ax=ax, color=_type_colors(data.columns), width=0.75)
+    ax.set_title("Top Content-Producing Countries")
+    ax.set_xlabel("Number of titles")
+    ax.set_ylabel("")
+    ax.legend(title="")
+    return _save(fig, "09_top_countries.png")
+
+
+def plot_genre_cooccurrence(matrix: pd.DataFrame) -> Path:
+    """Heatmap of genres that are listed together (diagonal hidden)."""
+    mask = np.eye(len(matrix), dtype=bool)
+    fig, ax = plt.subplots(figsize=(11, 9))
+    sns.heatmap(
+        matrix, mask=mask, cmap="Reds", annot=True, fmt="d", linewidths=0.5,
+        cbar_kws={"label": "Titles sharing both genres"}, ax=ax,
+    )
+    ax.grid(False)
+    ax.set_title("Which Movie Genres Go Together?")
+    ax.set_xlabel("")
+    ax.set_ylabel("")
+    plt.setp(ax.get_xticklabels(), rotation=45, ha="right")
+    return _save(fig, "13_genre_cooccurrence.png")
+
