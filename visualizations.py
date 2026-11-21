@@ -109,6 +109,21 @@ def plot_additions_over_time(yearly: pd.DataFrame) -> Path:
     _hide_x_grid(ax)
     return _save(fig, "04_additions_per_year.png")
 
+
+def plot_monthly_heatmap(matrix: pd.DataFrame) -> Path:
+    """Heatmap of additions by year and month."""
+    fig, ax = plt.subplots(figsize=(11, 0.45 * len(matrix) + 2.5))
+    sns.heatmap(
+        matrix, cmap="Reds", annot=True, fmt="d", linewidths=0.5,
+        cbar_kws={"label": "Titles added"}, ax=ax,
+    )
+    ax.grid(False)
+    ax.set_title("When Is Content Added? (Year x Month)")
+    ax.set_xlabel("")
+    ax.set_ylabel("Year added")
+    return _save(fig, "05_monthly_heatmap.png")
+
+
 def plot_release_decades(table: pd.DataFrame) -> Path:
     """How old is the catalog? Titles per release decade."""
     fig, ax = plt.subplots(figsize=(10, 5.5))
@@ -135,6 +150,7 @@ def plot_release_lag(df: pd.DataFrame, max_years: int = 15) -> Path:
     _hide_x_grid(ax)
     return _save(fig, "07_release_lag.png")
 
+
 def plot_genre_trends(trend: pd.DataFrame) -> Path:
     """Lines: how the top genres grew over time."""
     fig, ax = plt.subplots(figsize=(11, 6))
@@ -144,6 +160,7 @@ def plot_genre_trends(trend: pd.DataFrame) -> Path:
     ax.set_ylabel("Titles added")
     ax.legend(title="", loc="upper left")
     return _save(fig, "08_genre_trends.png")
+
 
 # Who / where / what
 def plot_top_barh(
@@ -191,4 +208,3 @@ def plot_genre_cooccurrence(matrix: pd.DataFrame) -> Path:
     ax.set_ylabel("")
     plt.setp(ax.get_xticklabels(), rotation=45, ha="right")
     return _save(fig, "13_genre_cooccurrence.png")
-
