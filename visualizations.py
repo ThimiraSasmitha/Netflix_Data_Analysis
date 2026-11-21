@@ -108,3 +108,15 @@ def plot_additions_over_time(yearly: pd.DataFrame) -> Path:
     plt.setp(ax.get_xticklabels(), rotation=45, ha="right")
     _hide_x_grid(ax)
     return _save(fig, "04_additions_per_year.png")
+
+def plot_release_decades(table: pd.DataFrame) -> Path:
+    """How old is the catalog? Titles per release decade."""
+    fig, ax = plt.subplots(figsize=(10, 5.5))
+    table.plot(kind="bar", stacked=True, ax=ax, color=_type_colors(table.columns), width=0.8)
+    ax.set_title("Catalog by Release Decade")
+    ax.set_xlabel("Release decade")
+    ax.set_ylabel("Number of titles")
+    ax.legend(title="")
+    plt.setp(ax.get_xticklabels(), rotation=0)
+    _hide_x_grid(ax)
+    return _save(fig, "06_release_decades.png")
