@@ -211,6 +211,7 @@ def plot_genre_cooccurrence(matrix: pd.DataFrame) -> Path:
 
 # Durations
 def plot_movie_duration(df: pd.DataFrame) -> Path:
+    """Histogram of movie runtimes."""
     minutes = df.loc[df["type"] == "Movie", "duration_minutes"].dropna().astype(float)
     fig, ax = plt.subplots(figsize=(9, 5.5))
     sns.histplot(minutes, bins=30, color=NETFLIX_RED, ax=ax)
@@ -221,3 +222,4 @@ def plot_movie_duration(df: pd.DataFrame) -> Path:
     ax.legend()
     _hide_x_grid(ax)
     return _save(fig, "14_movie_duration.png")
+
