@@ -223,3 +223,16 @@ def plot_movie_duration(df: pd.DataFrame) -> Path:
     _hide_x_grid(ax)
     return _save(fig, "14_movie_duration.png")
 
+def plot_tv_seasons(df: pd.DataFrame, cap: int=8) -> Path:
+    seasons = df.loc[df["type"] == "TV Show", "num_seasons"].dropna().astype(int).clip(upper=cap)
+    counts = seasons.value_counts().sort_index()
+    labels = [f"{i}+" if i == cap else str(i) for i in counts.index]
+
+    fig, ax = plt.subplots(figsize=(9, 5.5))
+    bars = ax.bar(labels, counts.values, color=TYPE_COLORS["TV Show"])
+    ax.bar_label(bars, padding=3)
+    ax.set_title("Number of Seasons per TV Show")
+    ax.set_xlabel("Seasons")
+    ax.set_ylabel("Number of TV shows")
+    _hide_x_grid(ax)
+    return _save(fig, "15_tv_seasons.png")
