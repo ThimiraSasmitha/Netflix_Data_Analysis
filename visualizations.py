@@ -208,3 +208,16 @@ def plot_genre_cooccurrence(matrix: pd.DataFrame) -> Path:
     ax.set_ylabel("")
     plt.setp(ax.get_xticklabels(), rotation=45, ha="right")
     return _save(fig, "13_genre_cooccurrence.png")
+
+# Durations
+def plot_movie_duration(df: pd.DataFrame) -> Path:
+    minutes = df.loc[df["type"] == "Movie", "duration_minutes"].dropna().astype(float)
+    fig, ax = plt.subplots(figsize=(9, 5.5))
+    sns.histplot(minutes, bins=30, color=NETFLIX_RED, ax=ax)
+    ax.axvline(minutes.median(), color=NETFLIX_BLACK, linestyle="--", label=f"Median: {minutes.median():.0f} min")
+    ax.set_title("Movie Runtime Distribution")
+    ax.set_xlabel("Minutes")
+    ax.set_ylabel("Number of movies")
+    ax.legend()
+    _hide_x_grid(ax)
+    return _save(fig, "14_movie_duration.png")
