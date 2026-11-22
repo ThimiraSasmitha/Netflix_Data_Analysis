@@ -261,5 +261,9 @@ def create_all_plots(df: pd.DataFrame, tables: dict[str, pd.DataFrame]) -> list[
         "top actors": lambda: plot_top_barh(
             tables["top_actors"], "cast", "Top 10 Actors", "12_top_actors.png",
             color=NETFLIX_BLACK,
-        )
+        ),
+        "genre co-occurence": lambda:
+        plot_genre_cooccurrence(tables["genre_cooccurence_movies"]),
+        "movie duration": lambda: plot_movie_duration(df),
+        "tv seasons": lambda: plot_tv_seasons(df),
     }
