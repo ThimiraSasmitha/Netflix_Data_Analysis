@@ -240,6 +240,7 @@ def plot_tv_seasons(df: pd.DataFrame, cap: int=8) -> Path:
 
 # Orchestration
 def create_all_plots(df: pd.DataFrame, tables: dict[str, pd.DataFrame]) -> list[Path]:
+    """Render every figure; one failing chart will not stop the others."""
     jobs = {
         "type distribution": lambda: plot_type_distribution(tables["type_distribution"]),
         "rating distribution": lambda: plot_rating_distribution(tables["rating_distribution"]),
