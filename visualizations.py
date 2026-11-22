@@ -237,3 +237,28 @@ def plot_tv_seasons(df: pd.DataFrame, cap: int=8) -> Path:
     ax.set_ylabel("Number of TV shows")
     _hide_x_grid(ax)
     return _save(fig, "15_tv_seasons.png")
+
+# Orchestration
+def create_all_plots(df: pd.DataFrame, tables: dict[str, pd.DataFrame]) -> list[Path]:
+    jobs = {
+        "type distribution": lambda: plot_type_distribution(tables["type_distribution"]),
+        "rating distribution": lambda: plot_rating_distribution(tables["rating_distribution"]),
+        "rating groups": lambda: plot_rating_groups(tables["rating_groups"]),
+        "additions per year": lambda: plot_additions_over_time(tables["titles_added_per_year"]),
+        "monthly heatmap": lambda: plot_monthly_heatmap(tables["monthly_additions"]),
+        "release decades": lambda: plot_release_decades(tables["release_decades"]),
+        "release lag": lambda: plot_release_lag(df),
+        "genre trends": lambda: plot_genre_trends(tables["genre_trends"]),
+        "country mix": lambda: plot_country_mix(tables["country_mix"]),
+        "top genres": lambda: plot_top_barh(
+            tables["top_genres"], "listed_in", "Top 10 Genres", "10_top_genres.png"
+        ),
+        "top directors": lambda: plot_top_barh(
+            tables["top_directors"], "director", "Top 10 Directors", "11_top_directors.png",
+            color=NETFLIX_BLACK,
+        ),
+        "top actors": lambda: plot_top_barh(
+            tables["top_actors"], "cast", "Top 10 Actors", "12_top_actors.png",
+            color=NETFLIX_BLACK,
+        )
+    }
