@@ -267,3 +267,12 @@ def create_all_plots(df: pd.DataFrame, tables: dict[str, pd.DataFrame]) -> list[
         "movie duration": lambda: plot_movie_duration(df),
         "tv seasons": lambda: plot_tv_seasons(df),
     }
+
+    paths: list[Path] = []
+    for name, job in jobs.items():
+        try:
+            paths.append(job())
+        except Exception:
+            logger.exception("Could not create the '%s' chart", name)
+    logger.info("Created %s/%s figures", len(paths), len(jobs))
+    return paths    
