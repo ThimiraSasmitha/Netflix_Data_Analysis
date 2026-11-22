@@ -224,6 +224,7 @@ def plot_movie_duration(df: pd.DataFrame) -> Path:
     return _save(fig, "14_movie_duration.png")
 
 def plot_tv_seasons(df: pd.DataFrame, cap: int=8) -> Path:
+    """Bar Chart: How many seasons do TV shows have?"""
     seasons = df.loc[df["type"] == "TV Show", "num_seasons"].dropna().astype(int).clip(upper=cap)
     counts = seasons.value_counts().sort_index()
     labels = [f"{i}+" if i == cap else str(i) for i in counts.index]
