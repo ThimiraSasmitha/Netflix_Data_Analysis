@@ -275,4 +275,4 @@ def create_all_plots(df: pd.DataFrame, tables: dict[str, pd.DataFrame]) -> list[
         except Exception: # noqa: BLE001 - keep going, but report loudly
             logger.exception("Could not create the '%s' chart", name)
     logger.info("Created %s/%s figures", len(paths), len(jobs))
-    return paths    
+    return paths
